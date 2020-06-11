@@ -45,7 +45,7 @@ def match(pattern, value):
 
 def get_cors(app, req, method, origin):
     sysmeta = req.get_container_info(app).get('sysmeta', {})
-    body = sysmeta.get(BUCKET_CORS_HEADER) or sysmeta.get('swift3-cors')
+    body = sysmeta.get('swift3-cors')
     if not body:
         return None
     data = fromstring(body, "CorsConfiguration")
@@ -163,7 +163,7 @@ class CorsController(Controller):
         """
         log_s3api_command(req, 'get-bucket-cors')
         sysmeta = req.get_container_info(self.app).get('sysmeta', {})
-        body = sysmeta.get(BUCKET_CORS_HEADER) or sysmeta.get('swift3-cors')
+        body = sysmeta.get('swift3-cors')
         if not body:
             raise NoSuchCORSConfiguration
         return HTTPOk(body=body, content_type='application/xml')
